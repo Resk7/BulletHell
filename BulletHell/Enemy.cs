@@ -34,7 +34,13 @@ namespace BulletHell
         {
             Rotation += RotationSpeed;
             foreach (Bullet BT in Bullets)
-                BT.RectangleUpdate();
+                BT.Update();
+            for (int i = 0; i < Bullets.Count; i++)
+            {
+                if (Bullets[i].DeletionTimer <= 0)
+                    Bullets.RemoveAt(i);
+            }
+
             Shoot();
         }
 
@@ -43,13 +49,13 @@ namespace BulletHell
 
             if(Counter > FireRate)
             {
-                Bullets.Add(new Bullet(Vector2, BulletTexture, SpriteBatch, Rotation));
+                Bullets.Add(new Bullet(Vector2, BulletTexture, SpriteBatch, Rotation, 500));
                 Counter = 0;
             }
 
             Counter++;
             foreach (Bullet BT in Bullets)
-                BT.Vector2 += new Vector2((float)Math.Sin(BT.Rotation), (float)Math.Cos(BT.Rotation));
+                BT.Vector2 += new Vector2((float)Math.Cos(BT.Rotation), (float)Math.Sin(BT.Rotation));
 
         }
     }
